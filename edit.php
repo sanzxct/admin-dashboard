@@ -37,6 +37,18 @@ while ($row = mysqli_fetch_assoc($data)) {
     $labels[] = $row['posisi'];
     $jumlahPosisi[] = $row['jumlah'];
 }
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $id = $_POST['id'];
+  $nama = $_POST['nama'];
+  $posisi = $_POST['posisi'];
+  $gaji = $_POST['gaji'];
+  $status = $_POST['status'];
+
+  mysqli_query($conn, "UPDATE pekerja SET nama='$nama', posisi='$posisi', gaji='$gaji', status='$status' WHERE id=$id");
+  header("Location: edit.php");
+}
 ?>
 
 
@@ -70,13 +82,8 @@ while ($row = mysqli_fetch_assoc($data)) {
          </div>
             <div class="right">
                 <header class="header">
-                    Dashboard Pekerja
+                    Edit Data Pekerja
                 </header>
-                
-                <div class="greet">
-                <h2>Hai, <?= $_SESSION['username'] ?> </h2>
-                <p>Selamat datang di panel manajemen data pekerja.</p>
-            </div>
 
             <div class="card">
                 <div class="card-item">
@@ -102,123 +109,82 @@ while ($row = mysqli_fetch_assoc($data)) {
                 </form>
 
            
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Posisi</th>
+            <th>Gaji</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php while ($row = mysqli_fetch_assoc($query)): ?>
+          <tr>
+            <td><?= htmlspecialchars($row['nama']) ?></td>
+            <td><?= htmlspecialchars($row['posisi']) ?></td>
+            <td>Rp. <?= number_format($row['gaji'], 0, ',', '.') ?></td>
+            <td><?= htmlspecialchars($row['status']) ?></td>
+            <td>
+                <div class="none">
+                    <a href="#" class="btn-edit"
+                     onclick="openEditForm(
+                        <?= $row['id'] ?>,
+                     '<?= htmlspecialchars($row['nama'], ENT_QUOTES) ?>',
+                    '<?= htmlspecialchars($row['posisi'], ENT_QUOTES) ?>',
+                    <?= $row['gaji'] ?>,
+                    '<?= $row['status'] ?>'
+                    )">Edit</a>
 
+                </div>
 
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Nama Pekerja</th>
-                        <th>Posisi</th>
-                        <th>Gaji Bulanan</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
 
-                <tbody>
-                    <?php if (mysqli_num_rows($query) > 0): ?>
-                     <?php while ($row = mysqli_fetch_assoc($query)): ?>
-                    <tr>
-                
-                    <td>
-                        <?= htmlspecialchars($row['nama']) ?>
-                    </td>
-                    <td>
-                       <?= htmlspecialchars($row['posisi']) ?>
-                    </td>
-                    <td>
-                       RP.<?= number_format($row['gaji'], 0, ',', '.') ?>
-                    </td>
-                    <td>
-                        <?= htmlspecialchars($row['status']) ?>
-                    </td>
+            <div id="editForm" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <h3 style="margin-bottom: 20px; text-align:center">Edit Data</h3>
+                    <form action="edit.php" method="POST">
+                        <input type="hidden" name="id" id="edit-id">
+                        <label>Nama</label>
+                        <input type="text" name="nama" id="edit-nama" required>
+                        <label>Posisi</label>
+                        <input type="text" name="posisi" id="edit-posisi" required>
+                        <label>Gaji</label> 
+                        <input type="number" name="gaji" id="edit-gaji" required>
+                        <label>Status</label>   
+                        <select name="status" id="edit-status" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                        <button type="submit">Simpan</button>
+                        <button type="button" onclick="document.getElementById('editForm').style.display='none'">Batal</button>
+                    </form>
 
-                    </tr>
-
-                    <?php endwhile; ?>
-                    <?php else: ?>
-                    <tr>
-                        <td colspan="4" style="text-align: center;">Tidak ada data pekerja ditemukan.</td>
-                        <?php endif; ?>
-                </tbody>
-            </table>
-
-            <div class="chart-card">
-                 <h3><i class="fas fa-chart-bar"></i> Jumlah Pekerja per Posisi</h3>
-                    <div class="chart-wrapper">
-                         <canvas id="grafikPekerja"></canvas>
-                    </div>
+                </div>
             </div>
 
-
-
-            </div>
+        </div>
     </div>
 
 
 <script>
-  const ctx = document.getElementById('grafikPekerja').getContext('2d');
-  const grafikPekerja = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: <?= json_encode($labels) ?>,
-      datasets: [{
-        label: 'Jumlah Pekerja',
-        data: <?= json_encode($jumlahPosisi) ?>,
-        backgroundColor: [
-          '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6' // warna bar
-        ],
-        borderRadius: 6,
-        borderSkipped: false,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: {
-        duration: 1000,
-        easing: 'easeOutQuart'
-      },
-      plugins: {
-        tooltip: {
-          backgroundColor: '#1E293B',
-          titleColor: '#FBBF24',
-          bodyColor: '#ffffff',
-          borderWidth: 1,
-          borderColor: '#FBBF24',
-          padding: 10
-        },
-        legend: {
-          display: false
-        },
-        title: {
-          display: false
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: '#374151', // abu tua
-            font: { weight: '500' }
-          },
-          grid: {
-            display: false
-          }
-        },
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: '#374151',
-            font: { weight: '500' },
-            stepSize: 1
-          },
-          grid: {
-            color: '#E5E7EB' // grid garis halus
-          }
-        }
-      }
-    }
-  });
-</script>
+    function openEditForm(id, nama, posisi,gaji, status){
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-nama').value = nama;
+        document.getElementById('edit-posisi').value = posisi;
+        document.getElementById('edit-gaji').value = gaji;
+        document.getElementById('edit-status').value = status;
 
-</body>
-</html>
+        document.getElementById('editForm').style.display = 'block';
+        
+    }
+
+    function closeEditForm() {
+        document.getElementById('editForm').style.display = 'none';
+    }
+</script>

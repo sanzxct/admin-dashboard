@@ -64,6 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['RESET'])) {
 
 
 
+        <header class="header">
+            <h1>StaffHub</h1>   
+        </header>
 <div class="container">
     <div class="body-left">
         <img src="left.png" alt="gambar awal">

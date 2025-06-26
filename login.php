@@ -54,12 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['LOGIN'])) {
   </div>
 <?php endif; ?>
 
+        <header class="header">
+            <h1>StaffHub</h1>   
+        </header>
+
 
     <div class="container">
         <div class="body-left">
             <img src="left.png" alt="gambar awal">
         </div>
-
         <div class="body-right">
             <div class="bg">
                 <div class="input">
