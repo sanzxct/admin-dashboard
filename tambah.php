@@ -73,7 +73,7 @@ if (isset($_GET['cari'])) {
   </div>
 
   <div class="right">
-    <header class="header">Edit Data Pekerja</header>
+    <header class="header">Tambah Data Pekerja</header>
 
     <div class="card">
       <div class="card-item">

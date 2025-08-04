@@ -61,10 +61,10 @@ while ($row = mysqli_fetch_assoc($data)) {
                 <li><a href="admin.php"><i class="fas fa-home"></i>Dashboard</a></li>
                 <li><a href="edit.php"><i class="fas fa-edit"></i>Edit Data</a></li>
                 <li><a href="tambah.php"><i class="fas fa-plus"></i>Tambah Data</a></li>
-                <li><a href="admin.php"><i class="fas fa-trash-alt"></i>Hapus Data</a></li>
-                <li><a href="admin.php"><i class="fas fa-file-invoice-dollar"></i>Laporan Gaji</a></li>
-                <li><a href="admin.php"><i class="fas fa-user"></i>Profil Saya</a></li>
-                  <li><a href="login.php"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
+                <li><a href="hapus.php"><i class="fas fa-trash-alt"></i>Hapus Data</a></li>
+                <li><a href="laporan.php"><i class="fas fa-file-invoice-dollar"></i>Laporan Gaji</a></li>
+                <li><a href="profile.php"><i class="fas fa-user"></i>Profil Saya</a></li>
+                  <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
                 </ul>
             </div>
          </div>

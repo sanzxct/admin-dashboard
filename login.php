@@ -8,12 +8,28 @@ $pesan = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['LOGIN'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
+    
     $query = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username' ");
     $user = mysqli_fetch_assoc($query);
 
     if ($user && $user['password'] == $password) {
         $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $user['id'];
+
+        // Cek apakah user sudah punya data di tabel pekerja
+        $checkPekerja = mysqli_query($conn, "SELECT * FROM pekerja WHERE user_id = " . $user['id']);
+
+        if (mysqli_num_rows($checkPekerja) === 0) {
+            // Insert default data pekerja jika belum ada
+            $nama = mysqli_real_escape_string($conn, $username);
+            $posisi = 'Belum diatur';
+            $gaji = 0;
+            $status = 'Aktif';
+
+            mysqli_query($conn, "INSERT INTO pekerja (nama, posisi, gaji, status, user_id) 
+                VALUES ('$nama', '$posisi', $gaji, '$status', " . $user['id'] . ")");
+        }
+
         header("Location: admin.php");
         exit;
     } else {
@@ -21,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['LOGIN'])) {
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>

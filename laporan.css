@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header {
+    background-color: #1E293B;
+    width: 100%;
+    color: white;
+    font-size: larger;
+    padding: 30px;
+    text-align: center;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+}
+
+.card-item {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.card-item:hover {
+  background-color: #f1f5f9;
+  transition: background-color 0.3s ease;
+}
+
+#pieChart {
+  width: 300px !important;
+  height: 300px !important;
+  margin: auto;
+  margin-top: 20px;
+
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.data-table thead {
+  background-color: #1E293B;
+  color: #ffffff;
+}
+
+.data-table th,
+.data-table td {
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 20px;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f1f5f9;
+  transition: background-color 0.3s;
+}
+
+.btn {
+    display: inline-block;
+    background: #1E293B;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin: 15px;
+}
+
+.btn:hover {
+    background: #384c6a;
+    transition: background-color 0.3s;
+}
+
